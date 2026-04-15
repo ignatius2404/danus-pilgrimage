@@ -1,0 +1,394 @@
+
+<style>
+:root { --blue-50: #E6F1FB; --blue-100: #B5D4F4; --blue-600: #185FA5; --blue-800: #0C447C; --teal-50: #E1F5EE; --teal-600: #0F6E56; --teal-800: #085041; --amber-50: #FAEEDA; --amber-600: #854F0B; --amber-800: #633806; --red-50: #FCEBEB; --red-600: #A32D2D; --green-50: #EAF3DE; --green-600: #3B6D11; --green-800: #27500A; --coral-50: #FAECE7; --coral-600: #993C1D; --purple-50: #EEEDFE; --purple-600: #534AB7; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); font-size: 14px; color: var(--color-text-primary); background: transparent; padding: 0 0 2rem; }
+.doc-header { border-bottom: 2px solid var(--blue-600); padding: 1.5rem 0 1rem; margin-bottom: 1.5rem; }
+.doc-title { font-size: 20px; font-weight: 500; color: var(--blue-800); }
+.doc-sub { font-size: 13px; color: var(--color-text-secondary); margin-top: 4px; }
+.badge-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.badge { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+.badge-blue { background: var(--blue-50); color: var(--blue-800); }
+.badge-teal { background: var(--teal-50); color: var(--teal-800); }
+.badge-amber { background: var(--amber-50); color: var(--amber-800); }
+h2 { font-size: 15px; font-weight: 500; color: var(--blue-800); margin: 1.5rem 0 0.75rem; padding-bottom: 4px; border-bottom: 0.5px solid var(--color-border-tertiary); display: flex; align-items: center; gap: 8px; }
+h3 { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin: 1rem 0 0.5rem; }
+.section-icon { width: 20px; height: 20px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.stat-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px; }
+.stat-label { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 4px; }
+.stat-value { font-size: 22px; font-weight: 500; }
+.card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 12px 14px; }
+.card-title { font-size: 13px; font-weight: 500; margin-bottom: 8px; }
+.pill { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 20px; margin: 2px 2px 2px 0; }
+.pill-blue { background: var(--blue-50); color: var(--blue-800); }
+.pill-teal { background: var(--teal-50); color: var(--teal-800); }
+.pill-amber { background: var(--amber-50); color: var(--amber-600); }
+.pill-red { background: var(--red-50); color: var(--red-600); }
+.pill-green { background: var(--green-50); color: var(--green-800); }
+.pill-purple { background: var(--purple-50); color: var(--purple-600); }
+.pill-coral { background: var(--coral-50); color: var(--coral-600); }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { background: var(--color-background-secondary); font-weight: 500; text-align: left; padding: 7px 10px; font-size: 11px; color: var(--color-text-secondary); }
+td { padding: 7px 10px; border-bottom: 0.5px solid var(--color-border-tertiary); vertical-align: top; }
+.total-row td { font-weight: 500; background: var(--blue-50); color: var(--blue-800); border-bottom: none; }
+.org-chart { display: flex; flex-direction: column; gap: 8px; }
+.org-level { display: flex; gap: 8px; justify-content: center; }
+.org-box { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); padding: 8px 12px; font-size: 12px; text-align: center; min-width: 100px; }
+.org-box.primary { background: var(--blue-50); border-color: var(--blue-600); color: var(--blue-800); font-weight: 500; }
+.org-box.sub { background: var(--teal-50); color: var(--teal-800); }
+.timeline-item { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
+.timeline-dot { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; flex-shrink: 0; }
+.timeline-dot.blue { background: var(--blue-50); color: var(--blue-800); }
+.timeline-dot.teal { background: var(--teal-50); color: var(--teal-800); }
+.timeline-dot.amber { background: var(--amber-50); color: var(--amber-600); }
+.timeline-dot.red { background: var(--red-50); color: var(--red-600); }
+.timeline-dot.green { background: var(--green-50); color: var(--green-800); }
+.timeline-content { flex: 1; }
+.timeline-title { font-size: 12px; font-weight: 500; }
+.timeline-desc { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; line-height: 1.5; }
+.alert { border-radius: var(--border-radius-md); padding: 10px 12px; font-size: 12px; margin: 8px 0; }
+.alert-amber { background: var(--amber-50); color: var(--amber-600); border-left: 3px solid #BA7517; }
+.alert-blue { background: var(--blue-50); color: var(--blue-800); border-left: 3px solid var(--blue-600); }
+.alert-teal { background: var(--teal-50); color: var(--teal-800); border-left: 3px solid var(--teal-600); }
+.alert-red { background: var(--red-50); color: var(--red-600); border-left: 3px solid #A32D2D; }
+.rs-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 12px; margin-bottom: 8px; }
+.rs-venue { font-size: 11px; font-weight: 500; color: var(--blue-600); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+.rs-name { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+.rs-detail { font-size: 11px; color: var(--color-text-secondary); }
+.progress-bar { height: 6px; background: var(--color-background-secondary); border-radius: 3px; margin: 4px 0; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 3px; }
+.coverage-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin: 8px 0; }
+.group-box { height: 28px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 500; }
+.sep { height: 0.5px; background: var(--color-border-tertiary); margin: 1.5rem 0; }
+</style>
+
+<div style="max-width:800px; margin:0 auto; padding: 0 4px;">
+
+<div class="doc-header">
+  <div class="doc-title">Strategi Divisi Kesehatan — Jambore OMK Dekanat Bekasi</div>
+  <div class="doc-sub">Dokumen perencanaan untuk Koordinator Kesehatan · Disusun April 2026</div>
+  <div class="badge-row">
+    <span class="badge badge-blue">400 Peserta · 20 Kelompok</span>
+    <span class="badge badge-teal">15 Anggota Tim Inti · 3 Paroki</span>
+    <span class="badge badge-amber">10 Paroki Dekanat Bekasi</span>
+  </div>
+</div>
+
+<div class="grid-3" style="margin-bottom:1.5rem;">
+  <div class="stat-card"><div class="stat-label">Total peserta</div><div class="stat-value" style="color:var(--blue-800);">400</div><div class="stat-label">orang · 20 kelompok</div></div>
+  <div class="stat-card"><div class="stat-label">Tim kesehatan inti</div><div class="stat-value" style="color:var(--teal-600);">15</div><div class="stat-label">dari 3 paroki</div></div>
+  <div class="stat-card"><div class="stat-label">Target total tim</div><div class="stat-value" style="color:var(--amber-600);">25–30</div><div class="stat-label">termasuk bantuan paroki</div></div>
+</div>
+
+<h2><span class="section-icon" style="background:var(--blue-50);color:var(--blue-800);">1</span> Struktur Organisasi Tim Kesehatan</h2>
+
+<div class="org-chart" style="margin-bottom:1rem;">
+  <div class="org-level"><div class="org-box primary" style="min-width:180px;">Koordinator Divisi Kesehatan<br><span style="font-size:10px;font-weight:400;">(1 orang — kamu)</span></div></div>
+  <div style="text-align:center;font-size:11px;color:var(--color-text-secondary);margin:4px 0;">▼</div>
+  <div class="org-level">
+    <div class="org-box sub">Sub-Tim A<br><span style="font-size:10px;">Arnoldus Bekasi (5)</span></div>
+    <div class="org-box sub">Sub-Tim B<br><span style="font-size:10px;">Bunda Teresa Cikarang (5)</span></div>
+    <div class="org-box sub">Sub-Tim C<br><span style="font-size:10px;">Santa Clara Bekasi Utara (5)</span></div>
+  </div>
+  <div style="text-align:center;font-size:11px;color:var(--color-text-secondary);margin:4px 0;">▼ (tambahan)</div>
+  <div class="org-level">
+    <div class="org-box" style="min-width:220px;font-size:11px;">Tim Bantuan dari 7 Paroki Lainnya<br><span style="font-size:10px;color:var(--color-text-secondary);">~10–15 orang · 1–2 per paroki</span></div>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-title">Pembagian Fungsi Per Sub-Tim (5 orang)</div>
+    <table>
+      <tr><td style="font-weight:500;">1 orang</td><td>Ketua sub-tim & koordinasi</td></tr>
+      <tr><td style="font-weight:500;">2 orang</td><td>Tim mobile / patroli kelompok</td></tr>
+      <tr><td style="font-weight:500;">1 orang</td><td>Pos Kesehatan Utama</td></tr>
+      <tr><td style="font-weight:500;">1 orang</td><td>Tim evakuasi / cadangan</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-title">Pos Kesehatan Utama (gabungan 3 sub-tim)</div>
+    <table>
+      <tr><td style="font-weight:500;">3 orang</td><td>Jaga pos (rotasi shift)</td></tr>
+      <tr><td style="font-weight:500;">2 orang</td><td>Triase & administrasi pasien</td></tr>
+      <tr><td style="font-weight:500;">2 orang</td><td>Siaga evakuasi & komunikasi</td></tr>
+    </table>
+    <div class="alert-amber alert" style="margin-top:8px;">Pos buka 24 jam dengan sistem shift 8 jam selama acara berlangsung.</div>
+  </div>
+</div>
+
+<h2 style="margin-top:1.5rem;"><span class="section-icon" style="background:var(--teal-50);color:var(--teal-800);">2</span> Strategi Pergerakan: Coverage 400 Peserta / 20 Kelompok</h2>
+
+<div class="alert-blue alert">Rasio ideal kesehatan lapangan: 1 petugas : 20–25 peserta. Dengan 15 orang tim inti, coverage = 1:27. Butuh tambahan minimal 10 orang untuk mencapai rasio aman 1:20.</div>
+
+<div class="card" style="margin-bottom:10px;">
+  <div class="card-title">Peta Coverage Kelompok (20 kelompok × 20 orang)</div>
+  <div class="coverage-grid">
+    <div class="group-box pill-blue">K1–2</div><div class="group-box pill-blue">K3–4</div><div class="group-box pill-teal">K5–6</div><div class="group-box pill-teal">K7–8</div><div class="group-box pill-amber">K9–10</div>
+    <div class="group-box pill-amber">K11–12</div><div class="group-box pill-purple">K13–14</div><div class="group-box pill-purple">K15–16</div><div class="group-box pill-coral">K17–18</div><div class="group-box pill-coral">K19–20</div>
+  </div>
+  <div style="margin-top:8px;font-size:11px;color:var(--color-text-secondary);">Setiap warna = 1 petugas mobile yang bertanggung jawab atas 4 kelompok (80 peserta). Dengan bantuan tambahan, bisa dikurangi menjadi 2 kelompok / petugas.</div>
+</div>
+
+<div class="grid-2">
+  <div>
+    <h3>Skenario Tim Inti (15 orang)</h3>
+    <div class="timeline-item">
+      <div class="timeline-dot blue">PU</div>
+      <div class="timeline-content"><div class="timeline-title">Pos Utama — 4 orang</div><div class="timeline-desc">Triase, penanganan sedang-berat, penyimpanan obat & alat, rekap data</div></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot teal">M</div>
+      <div class="timeline-content"><div class="timeline-title">Tim Mobile — 8 orang</div><div class="timeline-desc">Patroli tiap 30–45 mnt. Setiap petugas cover 4 kelompok (80 peserta). Bawa kit darurat portable.</div></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot amber">E</div>
+      <div class="timeline-content"><div class="timeline-title">Tim Evakuasi — 2 orang</div><div class="timeline-desc">Siaga kendaraan, koordinasi dengan RS, antar-jemput peserta sakit berat</div></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot red">K</div>
+      <div class="timeline-content"><div class="timeline-title">Koordinator — 1 orang</div><div class="timeline-desc">Liaison panitia inti, laporan berkala, keputusan evakuasi</div></div>
+    </div>
+  </div>
+  <div>
+    <h3>Sistem Komunikasi Tim</h3>
+    <div class="alert-teal alert">Sistem HT (Handy Talkie) untuk semua sub-tim + panitia inti. Minimal 5 HT: 1 koordinator, 3 ketua sub-tim, 1 tim evakuasi.</div>
+    <div class="timeline-item" style="margin-top:8px;">
+      <div class="timeline-dot blue">1</div>
+      <div class="timeline-content"><div class="timeline-title">Briefing pagi (setiap hari)</div><div class="timeline-desc">07.00 — seluruh tim, 15 menit, pos utama</div></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot teal">2</div>
+      <div class="timeline-content"><div class="timeline-title">Check-in per 2 jam</div><div class="timeline-desc">Tim mobile lapor ke pos utama via HT/WA grup</div></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot amber">3</div>
+      <div class="timeline-content"><div class="timeline-title">Kode darurat</div><div class="timeline-desc">"Kode Merah" = evakuasi segera · "Kode Kuning" = butuh bantuan pos</div></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot green">4</div>
+      <div class="timeline-content"><div class="timeline-title">Rekap harian malam</div><div class="timeline-desc">19.00 — laporan tertulis: jumlah kasus, jenis, tindakan</div></div>
+    </div>
+  </div>
+</div>
+
+<h2 style="margin-top:1.5rem;"><span class="section-icon" style="background:var(--coral-50);color:var(--coral-600);">3</span> Strategi Penambahan Personil dari Paroki Lain</h2>
+
+<div class="alert-teal alert">Dekanat Bekasi memiliki 10 paroki. 3 paroki sudah berkontribusi (15 orang). Sisanya 7 paroki dapat diminta kontribusi masing-masing 1–2 orang dari unit kesehatan / KKI (Komunitas Kesehatan Insan) paroki masing-masing.</div>
+
+<div class="grid-2" style="margin-top:8px;">
+  <div class="card">
+    <div class="card-title">Langkah Rekrutmen Bantuan</div>
+    <div class="timeline-item">
+      <div class="timeline-dot blue" style="width:22px;height:22px;font-size:10px;">S1</div>
+      <div class="timeline-content"><div class="timeline-title">Surat resmi ke pastor paroki</div><div class="timeline-desc">Minta rekomendasi 1–2 orang dari Tim Kesehatan / KKI / relawan medis paroki</div></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot teal" style="width:22px;height:22px;font-size:10px;">S2</div>
+      <div class="timeline-content"><div class="timeline-title">Koordinasi via ketua OMK paroki</div><div class="timeline-desc">Sampaikan kebutuhan spesifik: preferensi berlatar medis (dokter, perawat, bidan, farmasi)</div></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot amber" style="width:22px;height:22px;font-size:10px;">S3</div>
+      <div class="timeline-content"><div class="timeline-title">Technical meeting 1–2 minggu sebelum</div><div class="timeline-desc">Briefing tugas, pos kerja, SOP, dan pengenalan alat</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Proyeksi Tim dengan Bantuan</div>
+    <table>
+      <tr><th>Sumber</th><th>Estimasi personil</th></tr>
+      <tr><td>3 paroki inti</td><td>15 orang</td></tr>
+      <tr><td>7 paroki lainnya (@ 1–2)</td><td>7–14 orang</td></tr>
+      <tr><td><strong>Total proyeksi</strong></td><td><strong>22–29 orang</strong></td></tr>
+    </table>
+    <div style="margin-top:8px;">
+      <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;">Ketercapaian rasio 1:20</div>
+      <div class="progress-bar"><div class="progress-fill" style="width:75%;background:var(--teal-600);"></div></div>
+      <div style="font-size:10px;color:var(--color-text-secondary);">15 orang → 1:27 (kurang) · 25 orang → 1:16 (ideal)</div>
+    </div>
+  </div>
+</div>
+
+<h2 style="margin-top:1.5rem;"><span class="section-icon" style="background:var(--green-50);color:var(--green-800);">4</span> Kelas First Aid Kit untuk Peserta</h2>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-title">Konsep Kelas</div>
+    <table>
+      <tr><td>Format</td><td>Workshop 60–90 menit, praktik langsung</td></tr>
+      <tr><td>Peserta per sesi</td><td>80–100 orang (4–5 sesi) atau per kelompok (20 orang)</td></tr>
+      <tr><td>Fasilitator</td><td>2–3 orang per sesi (1 instruktur + 2 asisten)</td></tr>
+      <tr><td>Waktu ideal</td><td>Setelah check-in / sebelum kegiatan lapangan</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-title">Kurikulum Materi</div>
+    <div style="font-size:12px;line-height:1.8;">
+      <div><span class="pill pill-blue">1</span> Mengenal isi First Aid Kit & fungsinya</div>
+      <div><span class="pill pill-teal">2</span> Penanganan luka ringan & perdarahan</div>
+      <div><span class="pill pill-amber">3</span> RICE method (cedera otot/sendi)</div>
+      <div><span class="pill pill-green">4</span> Penanganan pingsan & heat stroke</div>
+      <div><span class="pill pill-blue">5</span> CPR dasar (demo manekin)</div>
+      <div><span class="pill pill-red">6</span> Cara memanggil bantuan medis darurat</div>
+      <div><span class="pill pill-purple">7</span> Pencegahan: hidrasi, alas kaki, dll.</div>
+    </div>
+  </div>
+</div>
+
+<h2 style="margin-top:1.5rem;"><span class="section-icon" style="background:var(--amber-50);color:var(--amber-600);">5</span> Daftar Obat & Alat — Pinjam dari Unit Kesehatan Gereja</h2>
+
+<div class="alert-amber alert" style="margin-bottom:10px;">Ajukan peminjaman resmi kepada pastor/koordinator unit kesehatan masing-masing paroki minimal 2 minggu sebelum acara. Sertakan daftar lengkap dan tanggal pengembalian.</div>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-title">Alat Medis (prioritas pinjam)</div>
+    <table>
+      <tr><th>Alat</th><th>Jml</th><th>Sumber</th></tr>
+      <tr><td>Tensimeter digital</td><td>2</td><td>Unit kesehatan paroki</td></tr>
+      <tr><td>Stetoskop</td><td>2</td><td>Unit kesehatan paroki</td></tr>
+      <tr><td>Termometer digital</td><td>5</td><td>Unit kesehatan paroki</td></tr>
+      <tr><td>Pulse oximeter</td><td>3</td><td>Unit kesehatan paroki</td></tr>
+      <tr><td>Tandu lipat / stretcher</td><td>2</td><td>Unit kesehatan paroki</td></tr>
+      <tr><td>Kursi roda</td><td>1</td><td>Gereja / yayasan</td></tr>
+      <tr><td>Kotak P3K besar</td><td>5</td><td>Unit kesehatan paroki</td></tr>
+      <tr><td>Senter / headlamp</td><td>5</td><td>Pribadi anggota tim</td></tr>
+      <tr><td>HT / Handy Talkie</td><td>5</td><td>Panitia / sewa</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-title">Obat-Obatan (pinjam atau minta stok paroki)</div>
+    <table>
+      <tr><th>Obat</th><th>Indikasi</th><th>Stok</th></tr>
+      <tr><td>Paracetamol 500mg</td><td>Demam, nyeri</td><td>200 tab</td></tr>
+      <tr><td>Ibuprofen 400mg</td><td>Nyeri otot, sendi</td><td>100 tab</td></tr>
+      <tr><td>Antasida (sirup + tab)</td><td>Maag, mual</td><td>50 dos</td></tr>
+      <tr><td>Oralit</td><td>Dehidrasi, diare</td><td>50 sachet</td></tr>
+      <tr><td>Loperamide</td><td>Diare</td><td>50 tab</td></tr>
+      <tr><td>Cetirizine 10mg</td><td>Alergi, biduran</td><td>50 tab</td></tr>
+      <tr><td>Salep Betadine</td><td>Luka, antiseptik</td><td>5 tube</td></tr>
+      <tr><td>Betadine larutan</td><td>Desinfeksi luka</td><td>500 ml</td></tr>
+      <tr><td>Obat tetes mata</td><td>Iritasi mata</td><td>5 botol</td></tr>
+      <tr><td>Minyak kayu putih</td><td>Masuk angin, perut</td><td>5 botol</td></tr>
+      <tr><td>Vitamin C</td><td>Stamina</td><td>100 tab</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="card" style="margin-top:10px;">
+  <div class="card-title">Bahan Habis Pakai (beli sendiri — tidak pinjam)</div>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:11px;margin-top:4px;">
+    <span class="pill pill-blue">Kasa steril 16×16 (5 box)</span>
+    <span class="pill pill-blue">Plester luka berbagai ukuran (5 box)</span>
+    <span class="pill pill-blue">Perban elastis 7.5cm (10 pcs)</span>
+    <span class="pill pill-blue">Perban gulung (10 pcs)</span>
+    <span class="pill pill-blue">Sarung tangan lateks (2 box)</span>
+    <span class="pill pill-blue">Masker medis (2 box)</span>
+    <span class="pill pill-blue">Alkohol swab (2 box)</span>
+    <span class="pill pill-blue">NaCl 0.9% irigasi (5 botol)</span>
+    <span class="pill pill-blue">Alkohol 70% (2 botol 500ml)</span>
+    <span class="pill pill-blue">Ice pack instan (20 pcs)</span>
+    <span class="pill pill-blue">Kompres hangat instan (10 pcs)</span>
+    <span class="pill pill-blue">Triangle bandage / mitela (5 pcs)</span>
+    <span class="pill pill-blue">Gunting perban (3 buah)</span>
+    <span class="pill pill-blue">Pinset (3 buah)</span>
+    <span class="pill pill-blue">Spuit irigasi 20ml (5 pcs)</span>
+    <span class="pill pill-blue">Safety pin (2 kotak)</span>
+    <span class="pill pill-blue">Cotton buds (2 kotak)</span>
+    <span class="pill pill-blue">Plastik sampah medis (1 rol)</span>
+  </div>
+</div>
+
+<h2 style="margin-top:1.5rem;"><span class="section-icon" style="background:var(--red-50);color:var(--red-600);">6</span> Rumah Sakit Terdekat per Lokasi Acara</h2>
+
+<div class="alert-red alert" style="margin-bottom:10px;">Catatan: Tidak ada rumah sakit Katolik yang dekat dengan ketiga lokasi acara. RS Katolik terdekat adalah RS Sint Carolus (Jakarta Pusat, ~50–70 km) dan RS Santo Borromeus (Bandung, ~80 km dari Cibodas). Untuk darurat, gunakan RS terdekat di bawah ini dan koordinasikan dengan pengurus Keuskupan bila diperlukan.</div>
+
+<div style="font-weight:500;font-size:12px;color:var(--blue-800);margin:8px 0 4px;">LOKASI 1 — Bumi Perkemahan Mandalawangi, Cibodas</div>
+<div class="rs-card">
+  <div class="rs-venue">Rumah Sakit Utama · ±3 km</div>
+  <div class="rs-name">RSUD Cimacan</div>
+  <div class="rs-detail">Jl. Raya Cimacan No.17A, Palasari, Cipanas, Kab. Cianjur · Buka 24 jam · Rating 4.3 ⭑</div>
+</div>
+<div class="rs-card">
+  <div class="rs-venue">Fasilitas Primer Terdekat · ±2 km</div>
+  <div class="rs-name">Puskesmas Cipanas</div>
+  <div class="rs-detail">Jl. Pahlawan No.1, Sindanglaya, Cipanas, Kab. Cianjur · Tel: (0263) 519371</div>
+</div>
+<div class="rs-card">
+  <div class="rs-venue">RS Alternatif (lebih besar) · ±25 km</div>
+  <div class="rs-name">RSUD Kelas B Kab. Cianjur</div>
+  <div class="rs-detail">Jl. Pasirgede Raya No.1b, Bojongherang, Cianjur · Rating 4.2 ⭑ · Fasilitas lebih lengkap</div>
+</div>
+
+<div style="font-weight:500;font-size:12px;color:var(--blue-800);margin:12px 0 4px;">LOKASI 2 & 3 — Canisius Camping Ground & Taman Budaya Sentul City, Sentul</div>
+<div class="rs-card">
+  <div class="rs-venue">RS Utama Terdekat · ±3–5 km (di dalam kawasan Sentul City)</div>
+  <div class="rs-name">RS EMC Sentul ⭑ Direkomendasikan</div>
+  <div class="rs-detail">Jl. MH. Thamrin No.Kav. 57, Citaringgul, Babakan Madang, Kab. Bogor · Buka 24 jam · Tel: 150789 · Rating 4.9 ⭑ — RS swasta modern, layanan lengkap</div>
+</div>
+<div class="rs-card">
+  <div class="rs-venue">RS Alternatif · ±15 km</div>
+  <div class="rs-name">RS FMC (Bogor)</div>
+  <div class="rs-detail">Jl. Raya Jakarta-Bogor No.51, Cimandala, Sukaraja, Kab. Bogor · Buka 24 jam · Tel: (0251) 8665000 · Rating 4.6 ⭑</div>
+</div>
+<div class="rs-card">
+  <div class="rs-venue">RS Daerah Alternatif · ±20 km</div>
+  <div class="rs-name">RSUD Bakti Pajajaran Kab. Bogor (Cibinong)</div>
+  <div class="rs-detail">Jl. KSR Dadi Kusmayadi No.27, Cibinong, Kab. Bogor · Buka 24 jam · Tel: (021) 8753487 · Rating 4.4 ⭑ · BPJS diterima</div>
+</div>
+
+<h2 style="margin-top:1.5rem;"><span class="section-icon" style="background:var(--purple-50);color:var(--purple-600);">7</span> Rincian Anggaran Dana</h2>
+
+<table style="margin-bottom:8px;">
+  <tr><th>No.</th><th>Pos Anggaran</th><th>Keterangan</th><th style="text-align:right;">Estimasi (Rp)</th></tr>
+
+  <tr><td colspan="4" style="background:var(--color-background-secondary);font-weight:500;font-size:11px;color:var(--blue-800);padding:6px 10px;">A. Obat-Obatan (beli)</td></tr>
+  <tr><td>1</td><td>Paracetamol & Ibuprofen</td><td>200 tab + 100 tab</td><td style="text-align:right;">130.000</td></tr>
+  <tr><td>2</td><td>Antasida sirup & tablet</td><td>2 botol + 2 strip</td><td style="text-align:right;">60.000</td></tr>
+  <tr><td>3</td><td>Oralit + Loperamide</td><td>50 sachet + 50 tab</td><td style="text-align:right;">70.000</td></tr>
+  <tr><td>4</td><td>Cetirizine antihistamin</td><td>50 tablet</td><td style="text-align:right;">50.000</td></tr>
+  <tr><td>5</td><td>Betadine larutan + salep</td><td>500ml + 5 tube</td><td style="text-align:right;">130.000</td></tr>
+  <tr><td>6</td><td>Alkohol 70% + minyak kayu putih</td><td>1L + 5 botol</td><td style="text-align:right;">100.000</td></tr>
+  <tr><td>7</td><td>Obat tetes mata + vitamin C</td><td>5 botol + 100 tab</td><td style="text-align:right;">115.000</td></tr>
+
+  <tr><td colspan="4" style="background:var(--color-background-secondary);font-weight:500;font-size:11px;color:var(--teal-800);padding:6px 10px;">B. Alat Habis Pakai</td></tr>
+  <tr><td>8</td><td>Kasa steril + plester</td><td>5 box kasa + 5 box plester</td><td style="text-align:right;">175.000</td></tr>
+  <tr><td>9</td><td>Perban elastis + gulung</td><td>10 pcs + 10 pcs</td><td style="text-align:right;">150.000</td></tr>
+  <tr><td>10</td><td>Sarung tangan lateks + masker</td><td>2 box + 2 box</td><td style="text-align:right;">160.000</td></tr>
+  <tr><td>11</td><td>Alkohol swab + NaCl irigasi</td><td>2 box + 5 botol</td><td style="text-align:right;">115.000</td></tr>
+  <tr><td>12</td><td>Ice pack + kompres hangat instan</td><td>20 + 10 pcs</td><td style="text-align:right;">180.000</td></tr>
+  <tr><td>13</td><td>Triangle bandage + safety pin</td><td>5 pcs + 2 kotak</td><td style="text-align:right;">95.000</td></tr>
+  <tr><td>14</td><td>Gunting perban + pinset</td><td>3 + 3 buah</td><td style="text-align:right;">120.000</td></tr>
+  <tr><td>15</td><td>Cotton buds + plastik medis + misc</td><td>2 kotak + 1 rol</td><td style="text-align:right;">60.000</td></tr>
+
+  <tr><td colspan="4" style="background:var(--color-background-secondary);font-weight:500;font-size:11px;color:var(--amber-800);padding:6px 10px;">C. Identitas Tim & Administrasi</td></tr>
+  <tr><td>16</td><td>Rompi / vest tim kesehatan</td><td>15–20 pcs (termasuk bantuan)</td><td style="text-align:right;">1.500.000</td></tr>
+  <tr><td>17</td><td>Name tag + lanyard tim</td><td>25 set</td><td style="text-align:right;">125.000</td></tr>
+  <tr><td>18</td><td>Buku log medis + formulir triase</td><td>3 buku + 200 lembar</td><td style="text-align:right;">75.000</td></tr>
+  <tr><td>19</td><td>Clipboard + alat tulis</td><td>5 buah</td><td style="text-align:right;">75.000</td></tr>
+
+  <tr><td colspan="4" style="background:var(--color-background-secondary);font-weight:500;font-size:11px;color:var(--coral-600);padding:6px 10px;">D. Komunikasi & Transportasi</td></tr>
+  <tr><td>20</td><td>Sewa HT / Handy Talkie</td><td>5 unit (estimasi per event)</td><td style="text-align:right;">500.000</td></tr>
+  <tr><td>21</td><td>Pulsa darurat + koordinasi</td><td>Tim inti 15 orang</td><td style="text-align:right;">150.000</td></tr>
+  <tr><td>22</td><td>Transport tim mobile</td><td>3 paroki × Rp 300.000</td><td style="text-align:right;">900.000</td></tr>
+
+  <tr><td colspan="4" style="background:var(--color-background-secondary);font-weight:500;font-size:11px;color:var(--green-800);padding:6px 10px;">E. Kelas First Aid</td></tr>
+  <tr><td>23</td><td>Materi cetak peserta</td><td>400 lembar × 2 hal</td><td style="text-align:right;">400.000</td></tr>
+  <tr><td>24</td><td>Sewa manekin CPR</td><td>2 unit</td><td style="text-align:right;">500.000</td></tr>
+  <tr><td>25</td><td>Alat peraga first aid</td><td>Demo kit, bandaging set</td><td style="text-align:right;">250.000</td></tr>
+
+  <tr><td colspan="4" style="background:var(--color-background-secondary);font-weight:500;font-size:11px;color:var(--purple-600);padding:6px 10px;">F. Konsumsi & Operasional Tim</td></tr>
+  <tr><td>26</td><td>Konsumsi tim 15 orang</td><td>Snack + makan, estimasi 2 hari</td><td style="text-align:right;">900.000</td></tr>
+  <tr><td>27</td><td>Air minum tim pos utama</td><td>Galon + botol kecil</td><td style="text-align:right;">150.000</td></tr>
+
+  <tr><td colspan="3" style="font-weight:500;text-align:right;padding:8px 10px;font-size:12px;">Subtotal</td><td style="text-align:right;padding:8px 10px;font-weight:500;">7.285.000</td></tr>
+  <tr><td colspan="3" style="text-align:right;padding:6px 10px;font-size:12px;color:var(--color-text-secondary);">Cadangan / Contingency (10%)</td><td style="text-align:right;padding:6px 10px;color:var(--color-text-secondary);">728.500</td></tr>
+  <tr class="total-row"><td colspan="3" style="text-align:right;padding:10px;">Total Estimasi Anggaran</td><td style="text-align:right;padding:10px;">± Rp 8.000.000</td></tr>
+</table>
+
+<div class="alert-amber alert">Anggaran di atas belum termasuk biaya yang ditanggung panitia utama Jambore (konsumsi peserta, venue, dll). Obat dan alat yang berhasil dipinjam dari unit kesehatan paroki dapat secara signifikan mengurangi anggaran bagian A & B hingga ±Rp 655.000.</div>
+
+<div class="sep"></div>
+<div style="font-size:11px;color:var(--color-text-secondary);text-align:center;padding-bottom:4px;">Dokumen Strategi Divisi Kesehatan · Jambore OMK Dekanat Bekasi · Disusun 2026 · Ad Maiorem Dei Gloriam</div>
+
+</div>
